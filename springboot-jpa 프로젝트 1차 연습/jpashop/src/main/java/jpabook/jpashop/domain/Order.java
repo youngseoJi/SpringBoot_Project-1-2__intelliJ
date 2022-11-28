@@ -36,5 +36,23 @@ public class Order {
     private LocalDateTime orderDate; // 주문시간
 
     @Enumerated(EnumType.STRING)
+
     private OrderStatus orderStatus; // 주문상태 -> [order, cancel]
+
+    // 연관관계 메서드
+    //  양방향 관계일 경우사용, 메서드가 있는 곳은 실제 컨트롤하는 곳에 존재한다.
+    public void setMember(Member member) {
+        this.member = member;
+        member.getOrders().add(this);
+    }
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+        delivery.setOrder(this);
+    }
 }
+
+
