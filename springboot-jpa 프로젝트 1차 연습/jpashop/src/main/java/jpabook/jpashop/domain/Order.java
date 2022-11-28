@@ -1,4 +1,4 @@
-package jpabook.jpashop.damain;
+package jpabook.jpashop.domain;
 
 // 주문 엔티티
 
