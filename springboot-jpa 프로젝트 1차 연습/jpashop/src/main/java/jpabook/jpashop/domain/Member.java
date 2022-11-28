@@ -20,7 +20,7 @@ public class Member {
 
     private Long id; // 엔티티 식별자 (member_id)
 
-    private String name; // 이름
+    private String name; // 회원명
 
     @Embedded // 내장타입을 포함했음 표시
     private Address address; // 주소
