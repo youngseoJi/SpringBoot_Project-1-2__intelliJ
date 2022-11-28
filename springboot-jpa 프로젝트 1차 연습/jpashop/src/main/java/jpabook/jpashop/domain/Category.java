@@ -28,7 +28,7 @@ public class Category {
     private List<Item> items = new ArrayList<>();
 
     // 카테고리 계층구조
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 

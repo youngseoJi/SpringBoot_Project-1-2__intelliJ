@@ -18,7 +18,7 @@ public class Delivery {
     // 배달과 주문 = 1:1 관계
     /* readonly(거울) delivery에서는 값변경 X ->  Order 주문에 FK 외래키가 있음
        mappedBy="delivery" -> Order 테이블에 있는 order필드에 의해 맵핑된 것*/
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY)
     private Order order; // 주문
 
     @Embedded // 내장타입

@@ -16,11 +16,11 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id; 
 
-    @ManyToOne // 주문상품과 상품 = N:1 관계
+    @ManyToOne(fetch = FetchType.LAZY) // 주문상품과 상품 = N:1 관계
     @JoinColumn(name = "item_id") // FK 외래키 orderItem에 있음.
     private Item item;
 
-    @ManyToOne // 주문상품과 주문 = N:1 관계 -> 1개의 주문에 여러개의 item을 갖음, 주문할 상품은 1개의 주문과 매핑
+    @ManyToOne(fetch = FetchType.LAZY) // 주문상품과 주문 = N:1 관계 -> 1개의 주문에 여러개의 item을 갖음, 주문할 상품은 1개의 주문과 매핑
     @JoinColumn(name = "order_id") // FK 외래키 orderItem에 있음.
     private Order order; // 주문
 

@@ -19,7 +19,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
     
-    @ManyToOne  // 주문과 회원 = N:1 다대일 관계 ( 실전에서는 사용 X 에노테이션)
+    @ManyToOne(fetch = FetchType.LAZY)  // 주문과 회원 = N:1 다대일 관계 ( 실전에서는 사용 X 에노테이션)
     @JoinColumn(name = "member_id")
     private Member member; // 주문한 회원
 
@@ -29,7 +29,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>(); // 주문한 아이템들
 
     // 주문과 배달 = 1:1 관계 -> 1:1관계일 경우에는 연관관계의 주인 pk키를 중심적인 곳에 둔다. 주문에 pk키 두기
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery; // 배송정보
 
