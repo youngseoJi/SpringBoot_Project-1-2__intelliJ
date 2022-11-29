@@ -14,7 +14,9 @@ spring:
 #
 #  jpa:
 #    hibernate:
-#      ddl-auto: create
+#      ddl-auto: create-drop
+       # create-create: 기존테이블 삭제 후 다시 생성 (DROP + CREATE)
+       # create-drop: create와 같으나 종료시점에 테이블 DROP -  메모리 완전히 초기화 시키기
 #    properties:
 #      hibernate:
     # show_sql: true : System.out으로 하이버네이트 실행 SQL을 남긴다
