@@ -2,6 +2,8 @@ package jpabook.jpashop.repository;
 
 
 import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,13 +11,20 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
-    @PersistenceContext // 영속성 컨텍스트 - 엔티티를 영구저장
-    private EntityManager em;
-    //EntityManager.persist(entity);  : 엔티티를 컨텍스트에 저장
-    
+    //@PersistenceContext -> @Autowired로 변경가능 // 영속성 컨텍스트 - 엔티티를 영구저장
+    private final EntityManager em;
+
+    /* @RequiredArgsConstructor:  final이 있는 필드로 생성자를 생성. 생성자 생략가능
+    public MemberRepository(EntityManager em) {
+        this.em = em;
+    }
+    */
+
     // 회원 가입, 등록
+    //EntityManager.persist(entity);  : 엔티티를 컨텍스트에 저장
     public void save(Member member) {
         em.persist(member);
     }
