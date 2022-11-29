@@ -37,7 +37,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
 
-    private OrderStatus orderStatus; // 주문상태 -> [order, cancel]
+    private OrderStatus status; // 주문상태 -> [order, cancel]
 
     // 연관관계 메서드
     //  양방향 관계일 경우사용, 메서드가 있는 곳은 실제 컨트롤하는 곳에 존재한다.
@@ -53,6 +53,61 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+
+    // 주문 생성 메서드- 복잡한것은 따로 뺴서 만들어준다.
+    // Order 가 order 주문 연관관계를 묶으면서, 주문 생성
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems ) {
+                                                                // 가변인자 : 여러개의 매개변수를 받음 OrderItem... orderItems
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER); // 주문상태
+        order.setOrderDate(LocalDateTime.now()); // 주문시간
+        return order; // 주문 셋팅
+    }
+
+    // 비즈니스 로직 //
+
+    // 주문취소
+    public  void cancel() {
+        // 배송상태가 == COMP 배송완료일때 -> 에러
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송완료된 상품은 주문 취소가 불가능합니다.");
+        }
+        // 아닐경우? 주문 상태를 취소로 변경한다.
+        this.setStatus(OrderStatus.CANCEL);
+
+        // 주문 상품 각각에 취소요청
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    // 조회 로직 //
+
+    // 전체 주문가격 조회
+   public int getTotalPrice() {
+        int totalPrice = 0;
+        // 각 item의 총 주문 가격을 모두 더해주기
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+    }
+/*  동일한 로직 - stream 활용
+    public int getTotalPrice() {
+      return orderItems.stream()
+              .mapToInt(OrderItem::getTotalPrice)
+              .sum();
+    }
+ */
+
 }
+
+
 
 
