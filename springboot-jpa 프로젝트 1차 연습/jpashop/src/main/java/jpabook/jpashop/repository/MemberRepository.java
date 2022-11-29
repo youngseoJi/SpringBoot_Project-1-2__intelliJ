@@ -10,14 +10,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Repository
-@RequiredArgsConstructor
+@Repository // 스프링 빈으로 등록, JPA 예외를 스프링 기반 예외로 예외 변환
+@RequiredArgsConstructor // @RequiredArgsConstructor:  final이 있는 필드로 생성자를 생성. 생성자 생략가능
 public class MemberRepository {
 
-    //@PersistenceContext -> @Autowired로 변경가능 // 영속성 컨텍스트 - 엔티티를 영구저장
+
     private final EntityManager em;
 
-    /* @RequiredArgsConstructor:  final이 있는 필드로 생성자를 생성. 생성자 생략가능
+    // @PersistenceContext -> @Autowired로 변경가능
+    // @PersistenceContext : 영속성 컨텍스트 - 엔티티를 영구저장/엔티티 메니저( EntityManager ) 주입
+
+    /* RequiredArgsConstructor이 자동생성
     public MemberRepository(EntityManager em) {
         this.em = em;
     }

@@ -4,7 +4,7 @@ package jpabook.jpashop.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import jpabook.jpashop.damain.item.Item;
+import jpabook.jpashop.domain.item.Item;
 
 import javax.persistence.*;
 

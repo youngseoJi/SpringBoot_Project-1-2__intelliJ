@@ -30,12 +30,11 @@ public class MemberService {
 
 
     // 기능 : 회원가입
-
     @Transactional // (readOnly = false)
     public Long join(Member member) {
         validateDuplicateMember(member); // 즁복회원 검증
         memberRepository.save(member);
-        return member.getId();
+        return member.getId(); // 가입완료한 회원 id를 출력
     }
 
     // 검증 : 중복회원 가입 X
@@ -44,7 +43,7 @@ public class MemberService {
         List<Member> findMembers = memberRepository.findByName(member.getName());
         // [] findMembers에 값이 있으면?  exception 에러
         if (!findMembers.isEmpty()) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
 
