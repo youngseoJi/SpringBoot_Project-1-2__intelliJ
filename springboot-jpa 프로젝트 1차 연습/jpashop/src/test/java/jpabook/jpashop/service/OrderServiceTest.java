@@ -60,24 +60,36 @@ public class OrderServiceTest {
     public void 상품주문_재고수량초과() throws Exception {
         //given : 재고 10개를 넘어선 주문량이 들어오면
         Member member = createMember();
-        Item item = createBook("JPA 학습", 10000, 10); 
+        Book item = createBook("JPA 학습", 10000, 10);
 
         int orderCount = 11;
         
         //when : 주문했을 때 -> exeption 에러 발생
         orderService.order(member.getId(), item.getId(),orderCount);
 
-        //then : 밑에 코드까지 내려오면 안됨
+        //then : 밑에 코드까지 내려오면 안됨 -> 테스트 실패시 밑에 fail 메세지 뜸
         fail("재고 수량 부족 예외가 발생해야 한다!!");
     }
     @Test
     public void 주문취소() throws Exception {
-        //given
+        //given : 주문을 했을때
+        Member member = createMember();
+        Book item = createBook("JPA 학습", 10000, 10);
 
-        //when
+        int orderCount = 2;
 
-        //then
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
 
+        //when : 특정 주문을 취요청 했을 때
+        orderService.cancelOrder(orderId);
+
+        //then : 기대한 값과 실제 값이 같으면 취소 성공
+
+        // 주문내역에서 취소한 주문 조회 -> 주문 취소상태, 재고복구,
+        Order getOrder = orderRepository.findOne(orderId);
+
+        assertEquals("주문 취소시 주문상태는 CANCEL 임", OrderStatus.CANCEL, getOrder.getStatus()); // 주문상태
+        assertEquals("주문 취소한 상품은 취소한 만큼 재고가 증가/복구 되야함", 10, item.getStockQuantity());// 재고상태
     }
 
     private Book createBook(String name, int price, int quantity) {
