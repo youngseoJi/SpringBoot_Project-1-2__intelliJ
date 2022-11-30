@@ -2,7 +2,9 @@ package jpabook.jpashop.domain;
 
 // 주문한 아이템 - 중간 테이블
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jpabook.jpashop.domain.item.Item;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "order_item")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
     @Id @GeneratedValue
     @Column(name = "order_item_id")
@@ -28,6 +31,8 @@ public class OrderItem {
 
     private int count; // 주문 수량
 
+//    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//    대체 -> protected OrderItem() { }
 
     // 주문상품 - 생성메서드 //
     public  static OrderItem createOrderItem(Item item, int orderPrice, int count) {
