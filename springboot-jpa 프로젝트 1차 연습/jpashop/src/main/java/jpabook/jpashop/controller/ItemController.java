@@ -43,8 +43,8 @@ public class ItemController {
         // 상품저장소에 생성한 책을 저장
         itemService.saveItem(book);
 
-        // 저장 후 리다이렉트 -> 상품 목록 뷰
-        return "redirect:/items";
+        // 저장 후 리다이렉트 -
+        return "redirect:/";
 
     }
 }

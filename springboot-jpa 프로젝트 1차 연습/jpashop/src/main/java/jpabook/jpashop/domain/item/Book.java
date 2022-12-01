@@ -14,5 +14,5 @@ public class Book extends Item{
 
     private String author; // 저자
 
-    private String isbn; //
+    private String isbn; //국제표준도서번호
 }

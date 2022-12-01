@@ -17,5 +17,5 @@ public class BookForm {
 
     // item 중 책 특수 속성
     private String author; // 저자
-    private String isbn; //
+    private String isbn; //국제표준도서번호
 }
