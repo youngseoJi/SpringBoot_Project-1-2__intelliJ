@@ -56,7 +56,7 @@ public class MemberController {
 
     // 회원 목록 조회 컨트롤러
     @GetMapping("/members")
-    public String List(Model model) {
+    public String list(Model model) {
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members); // model 에 배열, 리스트로 회원들을 담아줌
 
