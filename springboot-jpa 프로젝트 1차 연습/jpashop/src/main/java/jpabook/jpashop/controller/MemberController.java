@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.List;
+
+// 회원 기능 컨트롤러
 
 @Controller
 @RequiredArgsConstructor //  final Or @NotNull 붙은 필드의 생성자 자동 생성 - 따로 생성할필요 X
@@ -18,11 +21,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    
     // 회원 등록 폼 조회
     @GetMapping("/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm()); // 빈 맴버등록 폼 객체를 담아줌
-        return "members/createMemberForm"; // 뷰 렌더링
+        return "members/createMemberForm"; // 회원 등록 폼 뷰 렌더링
     }
 
     // 회원 등록
@@ -47,5 +51,16 @@ public class MemberController {
         // 회원 가입 (저장)
         memberService.join(member);
         return "redirect:/"; // 회원 가입시 -> Home 화면으로 이동
+    }
+
+
+    // 회원 목록 조회 컨트롤러
+    @GetMapping("/members")
+    public String List(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members); // model 에 배열, 리스트로 회원들을 담아줌
+
+        return "members/memberList"; // 조회 시 -> memberList 목록 뷰 화면 렌더링
+
     }
 }
