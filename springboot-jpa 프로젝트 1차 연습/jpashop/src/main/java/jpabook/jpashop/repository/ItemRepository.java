@@ -22,9 +22,10 @@ public class ItemRepository {
             // item 신규 등록
             em.persist(item);
 
-            // 수정할 목적!!!
-        } else { // item 이 이미 있다, db에서 가져온것
-            // 저장, 업데이트 같은 기능
+            // 수정할 목적!!! - item 이 이미 있다, db에서 가져온것
+        } else {
+            // 준영속 엔티티를 수정하는 2가지 방법 중 1개 - 병합(merge) 사용
+            // 저장, 업데이트 같은 기능 -> 실무에서 사용 X
             em.merge(item);
         }
     }

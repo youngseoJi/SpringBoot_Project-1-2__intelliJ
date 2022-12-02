@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,20 @@ public class ItemService {
     public void saveItem(Item item) {
         itemRepository.save(item);
     }
+
+    // 준영속 엔티티를 수정하는 2가지 방법 중 -변경 감지 기능 사용
+    // merge 병합 사용 X - 엔티티를 변경할 때는 항상 변경 감지를 사용해라!
+    @Transactional
+    public Item updateItem(Long itemId, Book param){
+        Item findItem = itemRepository.findOne(itemId);
+
+        findItem.setName(param.getName());
+        findItem.setPrice(param.getPrice());
+        findItem.setName(param.getName());
+        findItem.setStockQuantity(param.getStockQuantity());
+        return findItem;
+    }
+
     // item 조회
     public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
