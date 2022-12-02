@@ -6,10 +6,7 @@ import jpabook.jpashop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class ItemController {
         itemService.saveItem(book);
 
         // 저장 후 리다이렉트 - 홈
-        return "redirect:/";
+        return "redirect:/items";
 
     }
 
@@ -66,7 +63,7 @@ public class ItemController {
     // 상품 수정 폼 조회
     
     // @PathVariable {변수/바뀌는 값} 고정되지 않은 값이 있을때 사용
-    @GetMapping("items/{itemId}/edit")
+    @GetMapping("/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
 
         // 수정하는 상품 Id로 조회 -> Book 책으로 타입변환
@@ -87,5 +84,28 @@ public class ItemController {
         model.addAttribute("form", form);
 
         return "items/updateItemForm"; // item 수정 폼 뷰 렌더링
+    }
+
+    // 상품 수정
+    @PostMapping("/{itemId}/edit")
+
+    // @ModelAttribute("form") : updateItemForm 뷰 파일에서 -> <form th:object="${form}" ~> 해당 form 을 갖고옴
+    public String updateItem(@ModelAttribute("form") BookForm form) {
+        // 책 객체 생성 - 초기화
+        Book book = new Book();
+
+        // 책 정보 설정 - 수정 폼에 입력한 데이터로 데이터 바인딩
+        book.setId(form.getId());
+        book.setName(form.getName());
+        book.setPrice(form.getPrice());
+        book.setStockQuantity(form.getStockQuantity());
+        book.setAuthor(form.getAuthor());
+        book.setIsbn(form.getIsbn());
+
+        // 수정한 책 정보로 다시 저장
+        itemService.saveItem(book);
+
+        // 수정 후 -> 상품목록 뷰 리다이렉트
+        return "redirect:/items";
     }
 }

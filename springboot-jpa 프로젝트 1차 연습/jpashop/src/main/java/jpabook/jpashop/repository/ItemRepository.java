@@ -21,7 +21,9 @@ public class ItemRepository {
         if (item.getId() == null) {
             // item 신규 등록
             em.persist(item);
-        } else { // item 이 이미 있다, , db에서 가져온것
+
+            // 수정할 목적!!!
+        } else { // item 이 이미 있다, db에서 가져온것
             // 저장, 업데이트 같은 기능
             em.merge(item);
         }
