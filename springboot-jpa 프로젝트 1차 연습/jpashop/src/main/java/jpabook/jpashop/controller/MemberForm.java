@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 
 
-// 회원 등록 폼
+// 회원 등록 폼 필요 값
 
 @Getter @Setter
 public class MemberForm {

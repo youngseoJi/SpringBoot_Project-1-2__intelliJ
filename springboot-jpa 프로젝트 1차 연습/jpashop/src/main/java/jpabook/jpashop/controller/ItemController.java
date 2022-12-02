@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -46,7 +47,7 @@ public class ItemController {
         // 상품저장소에 생성한 책을 저장
         itemService.saveItem(book);
 
-        // 저장 후 리다이렉트 -
+        // 저장 후 리다이렉트 - 홈
         return "redirect:/";
 
     }
@@ -54,9 +55,37 @@ public class ItemController {
     // 상품목록 조회
     @GetMapping()
     public String list(Model model) {
+
         // 상품들을 저장소에서 꺼내 list[]인 items에 담음 -> model 에 저장
         List<Item> items = itemService.findItems();
         model.addAttribute("items", items);
+        
         return "items/itemList";  // itemList 상품목록 뷰 렌더링
+    }
+
+    // 상품 수정 폼 조회
+    
+    // @PathVariable {변수/바뀌는 값} 고정되지 않은 값이 있을때 사용
+    @GetMapping("items/{itemId}/edit")
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
+
+        // 수정하는 상품 Id로 조회 -> Book 책으로 타입변환
+        Book item = (Book) itemService.findOne(itemId);
+
+        // 책/상품 등록 폼 생성
+        BookForm form = new BookForm();
+
+        // 책/상품 등록 폼에 작성한 데이터 셋팅, 담기
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        form.setAuthor(item.getAuthor());
+        form.setIsbn(item.getIsbn());
+
+        // form 에 담긴 데이터 model에 저장하기
+        model.addAttribute("form", form);
+
+        return "items/updateItemForm"; // item 수정 폼 뷰 렌더링
     }
 }

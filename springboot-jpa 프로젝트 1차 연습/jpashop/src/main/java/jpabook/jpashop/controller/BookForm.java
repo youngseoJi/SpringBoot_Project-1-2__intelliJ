@@ -4,7 +4,7 @@ package jpabook.jpashop.controller;
 import lombok.Getter;
 import lombok.Setter;
 
-// item 상품 등록 폼
+// item 상품 등록 폼 필요 값
 @Getter @Setter
 public class BookForm {
 
